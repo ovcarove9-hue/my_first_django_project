@@ -1,29 +1,36 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}
-    Главная страница
-{% endblock %}
+{% block title %}Главная — Магазин{% endblock %}
 
 {% block content %}
-    <h1>Главная страница</h1>
-    {% for product in products %}
-        <h2>{{ product.name }}</h2>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
-        <img src="{{ product.image_url }}" alt="{{ product.name }}">
-        <p>{{ product.category.name }}</p>
-        <p>{{ product.brand.name }}</p>
-    {% endfor %}
+<div class="container">
+    <h1 class="page-title">Каталог товаров</h1>
 
-    <h2>Категории</h2>
-    {% for category in categories %}
-        <h3>{{ category.name }}</h3>
-        <p>{{ category.parent_category.name }}</p>
-    {% endfor %}
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-image-wrap">
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+            </div>
+            <div class="product-details">
+                <h2 class="product-name">{{ product.name }}</h2>
+                <p class="product-category">{{ product.brand.name }} / {{ product.category.name }}</p>
+                <div class="product-price-block">
+                    <span class="product-price">{{ product.price }} ₽</span>
+                    {% if product.old_price %}
+                    <span class="product-old-price">{{ product.old_price }} ₽</span>
+                    {% endif %}
+                </div>
+                <button class="add-to-cart">В корзину</button>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-products">Пока нет товаров </p>
+        {% endfor %}
+    </div>
 
-    <h2>Бренды</h2>
-    {% for brand in brands %}
-        <h3>{{ brand.name }}</h3>
-        <p>{{ brand.country }}</p>
-    {% endfor %}
+  
+    </div>
+</div>
 {% endblock %}
